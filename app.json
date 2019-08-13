@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/_home/_home",
+    "components/_button/_button",
     "pages/test/test",
     "pages/index/index",
     "pages/logs/logs"
