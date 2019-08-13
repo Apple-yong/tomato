@@ -1,0 +1,17 @@
+<view class="div1" id="item-{{id}}">{{ message }}</view>
+<view wx:if="{{condition > 5}}">年化</view>
+<view>{{"hello " + name}}</view>
+<view>{{object.key}} {{array[0]}}</view>
+<view wx:for="{{[zero, 1, 2, 3, 4]}}"> {{item}} </view>
+<template is="objectCombine" data="{{for: a, bar: b}}"></template>
+<view wx:for="{{array1}}">
+  {{index}}: {{item.message}}
+</view>
+
+
+<view>{{ str }}</view>
+<button bindtap="reverseTap">按钮</button>
+
+------------------------------------------
+<view>{{ obj.id }}：{{ obj.text }}</view>
+<button bindtap="changeText">按钮</button>
