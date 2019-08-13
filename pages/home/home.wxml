@@ -1,3 +1,5 @@
 <!--pages/_home/_home.wxml-->
 <text>home</text>
 <g-button text="按钮" size="mini" type="change"></g-button>
+<g-clock text="点击开始番茄"></g-clock>
+
