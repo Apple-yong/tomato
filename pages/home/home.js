@@ -19,6 +19,11 @@ Page({
   showConfirm(){
     this.setData({ visible: true })
   },
+  gotoTomato(){
+    wx.navigateTo({
+      url: "/pages/tomato/tomato"
+    })
+  },
   confirmCreate(event){
     let content = event.detail
     if(content){
