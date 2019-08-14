@@ -1,66 +1,37 @@
 // pages/_home/_home.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    visible: false,
+    lists: [
+      { id: 1,text: "今天做什么", finished: true},
+      { id: 1, text: "明做什么", finished: false },
+      { id: 1, text: "后天做什么", finished: true },
+      { id: 1, text: "4天做什么", finished: false },
+      { id: 1, text: "5天做什么", finished: true }
+    ],
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  confirm(event){
+    console.log(event.detail)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  hideConfirm(){
+    this.setData({ visible: false })
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  showConfirm(){
+    this.setData({ visible: true })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  confirmCreate(event){
+    let content = event.detail
+    if(content){
+      let todo = [{ id: this.data.lists.length + 1, text: content, finished: false }]
+      console.log(todo.concat(this.data.lists))
+      this.data.lists = todo.concat(this.data.lists)
+      this.setData({ lists: this.data.lists })
+      this.hideConfirm()
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  destroyTodo(event){
+    let index = event.currentTarget.dataset.index
+    this.data.lists[index].finished = true
+    this.setData({ lists: this.data.lists })
   }
 })
