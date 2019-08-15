@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/me/me",
+    "pages/binding/binding",
     "pages/home/home",
+    "pages/me/me",
     "pages/tomato/tomato",
     "pages/test/test",
     "pages/index/index",
@@ -38,5 +39,6 @@
         "selectedIconPath": "images/me-active.png"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap10.json"
 }
