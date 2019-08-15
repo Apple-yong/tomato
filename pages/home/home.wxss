@@ -36,6 +36,7 @@
    box-sizing: border-box;
    max-height: 552rpx;
    min-height: 552rpx;
+   transition:all 2s;
   }
   .todoList .item { 
     display: flex;
@@ -45,6 +46,7 @@
     border-radius: 8rpx;
     padding: 17rpx 50rpx;
     margin-bottom: 24rpx;
+    transition:all 2s;
    }
   .todoList .item:last-child { margin: 0; }
   .todoList .item text {
