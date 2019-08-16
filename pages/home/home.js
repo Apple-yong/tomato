@@ -10,7 +10,7 @@ Page({
     lists: [],
   },
   onShow(){
-    http.get('/todos').then(response=>{
+    http.get('/todos?completed=false').then(response=>{
       this.setData({ lists: response.data.resources })
     })
   },
@@ -19,18 +19,18 @@ Page({
       url: "/pages/tomato/tomato"
     })
   },
-  confirmCreate(event){
+  confirmCreate(event) {
     let content = event.detail
     if (content) {
-      http.post('/todos',{
+      http.post('/todos', {
         description: content
       })
-      .then(response => {
-        let todo = [response.data.resource]
-        this.data.lists = todo.concat(this.data.lists)
-        this.setData({ lists: this.data.lists })
-        this.hideCreateConfirm()
-      })  
+        .then(response => {
+          let todo = [response.data.resource]
+          this.data.lists = todo.concat(this.data.lists)
+          this.setData({ lists: this.data.lists })
+          this.hideCreateConfirm()
+        })
     }
   },
   destroyTodo(event){
