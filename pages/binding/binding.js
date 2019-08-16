@@ -1,19 +1,24 @@
-// pages/binding/binding.js
-Page({
+const http = require('../../lib/http.js').http;
 
-  /**
-   * 页面的初始数据
-   */
+Page({
   data: {
     account: "",
-    possword: "",
-    isBinding: true
+    password_digest: "",
   },
-
-  goToSignUp() {
-    this.setData({ isBinding: false })
+  watchAccount(event) {
+    this.setData({ account: event.detail.value })
   },
-  goToBinding() {
-    this.setData({ isBinding: true })
+  watchPassword(event) {
+    this.setData({ password_digest: event.detail.value })
+  },
+  submit() {
+    http.post('/bindings', {
+      account: this.data.account,
+      password_digest: this.data.password_digest
+    })
+      .then(response => {
+        wx.setStorageSync('me', response.data.resource)
+        wx.reLaunch({ url: "/pages/home/home" })
+      })
   },
 })
