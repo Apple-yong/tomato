@@ -1,15 +1,14 @@
 {
   "pages": [
-    "pages/me/me",
     "pages/home/home",
     "pages/login/login",
-    
+    "pages/me/me",
     "pages/tomato/tomato"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "番茄闹钟",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

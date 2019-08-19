@@ -43,6 +43,11 @@ Page({
       let todo = response.data.resource
       this.data.lists[index] = todo
       this.setData({ lists: this.data.lists })
+      wx.showToast({
+        title: '确认完成',
+        icon: 'success',
+        duration: 1000
+      })
     })
   },
   reviseTodo(event){
