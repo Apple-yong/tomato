@@ -72,7 +72,6 @@ Page({
   },
   confirmFinish(event) {
     let content = event.detail
-    console.log(content)
   },
   showConfirm(){
     this.setData({ confirmVisible: true })
