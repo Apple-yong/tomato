@@ -6,7 +6,7 @@
   flex-direction: column;
  }
 .header { 
-  height: 170rpx;
+  min-height: 170rpx;
   background: #fff;
   display: flex;
   align-items: center;
@@ -41,8 +41,9 @@
   justify-content: space-around;
   font-size: 28rpx;
   color: #333;
-  padding: 20rpx 0;
   margin-bottom: 24rpx;
+  min-height: 90rpx;
+  align-items: center;
 }
 .tabs > view { 
   position: relative;
