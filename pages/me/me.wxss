@@ -94,4 +94,6 @@
   flex: 1;
   flex-wrap: wrap;
 }
+.qr::after { border: none; }
+.qr { background: transparent; color: #FE996F; font-size: 24rpx;}
 
