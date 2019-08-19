@@ -59,6 +59,7 @@
   left: 50%;
   bottom: -16rpx;
   transform: translate(-50%,-50%);
+  transition: all 1s;
 }
 
 .cantainer .lists { 

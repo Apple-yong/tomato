@@ -1,104 +1,139 @@
-// pages/tomato/tomato.js
+// pages/tomoto/tomoto.js
 const { http } = require('../../lib/http.js')
 Page({
-  /**
-   * 页面的初始数据
-   */
+  timer: '',
+  tomato: {},
   data: {
-    defaultSecond: 1500,
-    time: "",
-    timer: null,
-    stop: false,
-    confirmVisible: false,
+    defalutSecond: 1500,
+    time: '',
+    timerStatus: 'stop',
+    finishConfirmVisible: false,
     againButtonVisible: false,
-    finishConfirmVisible: false
+    confirmVisible: false,
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    this.startTimer()
+  onLoad() {
+    wx.vibrateLong()
+  },
+  onShow() {
     http.post('/tomatoes').then(response => {
-      this.setData({ tomato: response.data.resource })
+      this.tomato = response.data.resource
     })
+    if (this.data.defalutSecond) {
+      this.startTimer()
+    }
+
   },
-  startTimer(){
-    this.setData({ stop: true })
+  startTimer() {
+    this.setData({ timerStatus: 'stop' })
     this.changeTime()
     this.timer = setInterval(() => {
-      this.data.defaultSecond--
+      this.data.defalutSecond = this.data.defalutSecond - 1
       this.changeTime()
-      if (this.data.defaultSecond === 0) {
+      if (this.data.defalutSecond <= 0) {
+        wx.vibrateLong()
         this.setData({ againButtonVisible: true })
         this.setData({ finishConfirmVisible: true })
-        return this.clearTimer()
+        this.clearTimer()
+        return
       }
     }, 1000)
   },
-  clearTimer(){
+  clearTimer() {
     clearInterval(this.timer)
     this.timer = null
-    this.setData({ stop: false })
+    this.setData({ timerStatus: 'start' })
   },
-  againTimer() {
-    this.data.defaultSecond = 1500
-    this.setData({ againButtonVisible: false })
-    this.startTimer()
-  },
-  changeTime(){
-    let m = Math.floor(this.data.defaultSecond/60)
-    let s = Math.floor(this.data.defaultSecond%60)
-    if(s == 0){
-      s = '00'
-    }
-    if((s+"").length === 1){
-      s = "0" +s
-    }
-    if ((m + "").length === 1) {
-      m = "0" + m
-    }
-    this.setData({ time: `${m}:${s}` })
-  },
-  confirmAbandon(event){
-    let content = event.detail
-    http.put(`/tomatoes/${this.data.tomato.id}`, {
-      description: content,
-      aborted: true
-    })
-    .then(response => {
-      wx.navigateBack({ to: -1 })
-    })
-  },
-  confirmFinish(event) {
-    let content = event.detail
-  },
-  showConfirm(){
+  showConfirm() {//放弃时弹出
     this.setData({ confirmVisible: true })
     this.clearTimer()
   },
-  hideConfirm(){
+  //完成时的操作
+  confirmFinish(event) {
+    this.clearTimer()
+    let content = event.detail
+    this.setData({ finishConfirmVisible: false })
+    if (content) {
+      http.put(`/tomatoes/${this.tomato.id}`, {
+        description: content,
+        aborted: false
+      })
+        .then(response => {
+          
+        })
+    } else {
+      http.put(`/tomatoes/${this.tomato.id}`, {
+        description: content,
+        aborted: true
+      })
+        .then(response => {
+          wx.reLaunch({ url: '/pages/home/home' })
+        })
+    }
+
+  },
+  confirmCancel(event) {
+    this.setData({ finishConfirmVisible: false })
+    let content = event.detail
+    http.put(`/tomatoes/${this.tomato.id}`, {
+      description: content,
+      aborted: true
+    })
+      .then(response => {
+        
+      })
+  },
+  //放弃时的操作
+  confirmAbandon(event) {
+    let content = event.detail
+    http.put(`/tomatoes/${this.tomato.id}`, {
+      description: content,
+      aborted: true
+    })
+      .then(response => {
+        wx.reLaunch({ url: '/pages/home/home' })
+      })
+
+  },
+  hideAbandon() {
     this.setData({ confirmVisible: false })
     this.startTimer()
   },
-  finishConcel(){
-    this.setData({ finishConfirmVisible: false })
+  againTimer() {
+    this.defalutSecond = 1500
+    this.setData({ defalutSecond: this.defalutSecond })
+    this.startTimer()
+    this.setData({ againButtonVisible: false })
   },
-
-  onHide: function () {
-    this.clearTimer()
-    http.put(`/tomatoes/${this.data.tomato.id}`, {
-      description: "退出放弃",
-      aborted: true
-    })
+  changeTime() {
+    let m = Math.floor(this.data.defalutSecond / 60)
+    let s = Math.floor(this.data.defalutSecond % 60)
+    if (s === 0) {
+      s = '00'
+    }
+    if ((s + '').length === 1) {
+      s = '0' + s
+    }
+    if ((m + '').length === 1) {
+      m = '0' + m
+    }
+    this.setData({ time: `${m} : ${s}` })
   },
-
-  
-  onUnload: function () {
-    this.clearTimer()
-    http.put(`/tomatoes/${this.data.tomato.id}`, {
-      description: "退出放弃",
-      aborted: true
-    })
+  onHide() {
+    if (this.data.defalutSecond) {
+      this.clearTimer()
+      http.put(`/tomatoes/${this.tomato.id}`, {
+        description: "退出放弃",
+        aborted: true
+      })
+    }
+  },
+  onUnload() {
+    if (this.data.defalutSecond) {
+      this.clearTimer()
+      http.put(`/tomatoes/${this.tomato.id}`, {
+        description: "退出放弃",
+        aborted: true
+      })
+    }
   }
 })

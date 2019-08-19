@@ -1,12 +1,12 @@
 <!--pages/_home/_home.wxml-->
 <view class="home-container">
   <scroll-view class="todoList" scroll-y="true">
-    <view class="item" 
+    <view class="item {{itemCompleted === index ? 'active'  : ''}}"
           wx:for="{{lists}}" 
           wx:key="{{item.id}}" 
           wx:if="{{!item.completed}}"
           >
-      <view class="select {{item.completed && 'active'}}" 
+      <view class="select {{itemCompleted === index ? 'active'  : ''}}" 
           bindtap="destroyTodo" 
           data-index="{{index}}" 
           data-id="{{item.id}}"></view>

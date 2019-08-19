@@ -8,6 +8,7 @@ Page({
     visibleUpdate: false,
     updateContent: "",
     lists: [],
+    itemCompleted: ''
   },
   onShow(){
     http.get('/todos?completed=false').then(response=>{
@@ -36,19 +37,23 @@ Page({
   destroyTodo(event){
     let index = event.currentTarget.dataset.index
     let id = event.currentTarget.dataset.id
-    http.put(`/todos/${id}`,{
-      completed: true
-    })
-    .then(response => {
-      let todo = response.data.resource
-      this.data.lists[index] = todo
-      this.setData({ lists: this.data.lists })
-      wx.showToast({
-        title: '确认完成',
-        icon: 'success',
-        duration: 1000
+    this.setData({ itemCompleted: index })
+    setTimeout(() => {
+      http.put(`/todos/${id}`,{
+        completed: true
       })
-    })
+      .then(response => {
+        let todo = response.data.resource
+        this.data.lists[index] = todo
+        this.setData({ lists: this.data.lists })
+        this.setData({ itemCompleted: '' })
+        wx.showToast({
+          title: '确认完成',
+          icon: 'success',
+          duration: 1000
+        })
+      })
+    },500)
   },
   reviseTodo(event){
     let {content,id,index} = event.currentTarget.dataset
